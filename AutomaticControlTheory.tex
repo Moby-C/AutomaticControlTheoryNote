@@ -1,0 +1,360 @@
+%!TEX program = xelatex
+
+% 纸张模式：护眼模式-geye 朦胧模式-hazy
+% 纸张尺寸：pad kindle pc normal screen
+\documentclass[cn, blue, normal, 12pt]{elegantnote}
+
+\title{自动控制原理笔记}
+\author{Xiaohei}
+\institute{Created by Elegant\LaTeX{}}
+\version{0.1}
+\date{\zhtoday}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{patchplots}
+\usepackage{grffile}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{multirow}
+
+\begin{document}
+
+\maketitle
+
+\section{控制系统的数学模型}
+
+\subsection{线性控制系统}
+
+\textbf{线性控制系统描述方法}
+
+\begin{enumerate}
+    \item 输入输出描述法(外部描述法)：输入输出模型
+    \item 状态空间描述法(内部描述法)：状态空间模型
+\end{enumerate}
+
+\textbf{线性控制系统输入输出数学模型}
+
+\begin{enumerate}
+    \item 时域模型：微分方程
+    \item 频域、复频域模型：传递函数
+    \item 图示模型：方框图、信号流图
+\end{enumerate}
+
+\subsection{典型环节}
+
+\subsubsection{惯性环节}
+
+\begin{equation}
+    G(s)=\frac{1}{Ts+1}
+\end{equation}
+
+其中$T$为惯性环节时间常数。
+
+\subsubsection{积分环节}
+
+\begin{equation}
+    G(s)=\frac{1}{Ts}
+\end{equation}
+
+其中$T$为积分环节时间常数。
+
+\subsubsection{振荡环节}
+
+\begin{equation}
+    G(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}=\frac{1}{T^2 s^2+2\zeta Ts+1}
+\end{equation}
+
+其中$T=\frac{1}{\omega_n}$为时间常数，$\zeta$为阻尼比，$\omega_n$为无阻尼自然振荡角频率。
+
+\subsubsection{微分环节}
+
+\begin{equation}
+    G(s)=Ts
+\end{equation}
+
+其中$T$为微分环节时间常数。理想微分环节的传递函数不是真有理分式，工程实现较为困难，工程上常采用具有惯性环节的微分环节。
+
+\subsubsection{比例环节}
+
+\begin{equation}
+    G(s)=K_p
+\end{equation}
+
+其中$K_p$为比例系数增益。
+
+\subsubsection{时滞环节}
+
+\begin{equation}
+    G(s)=\text{e}^{-\tau s}
+\end{equation}
+
+其中$\tau$为延迟时间常数。
+
+\subsection{框图模型}
+
+框图的基本变换：合并串联方框、相加点前/后移、分支点前/后移、消去反馈回路。
+
+负反馈控制系统的典型结构图：
+
+\begin{center}
+    \begin{tikzpicture}[thick]
+        \draw[-latex]     (2,2) -- (7,2);
+        \draw[fill=white] (3,2) circle [radius=0.3];
+        \draw[fill=white] (4.5,1.6) rectangle (5.5,2.4);
+        \draw[fill=white] (4.5,0.6) rectangle (5.5,1.4);
+        \draw[-latex]     (2,2)   -- (2.7,2);
+        \draw[-latex]     (3.3,2) -- (4.5,2);
+        \draw[-latex]     (6.5,1) -- (5.5,1);
+        \draw[-latex]     (3,1)   -- (3,1.7);
+        \draw             (6.5,2) -- (6.5,1);
+        \draw             (4.5,1) -- (3,1);
+        \filldraw         (6.5,2) circle [radius=0.05];
+        \node[left]   at  (2,2)   {$R(s)$};
+        \node[right]  at  (7,2)   {$Y(s)$};
+        \node         at  (5,2)   {$G(s)$};
+        \node         at  (5,1)   {$H(s)$};
+        \node[above]  at  (3.8,2) {$E(s)$};
+        \node[left]   at  (3,1.3) {$B(s)$};
+        \node[above]  at  (2.6,2) {$+$};
+        \node[left]   at  (3,1.6) {$-$};
+    \end{tikzpicture}
+\end{center}
+
+闭环传递函数：
+
+\begin{equation}
+    \frac{Y(s)}{R(s)}=\frac{G(s)}{1+G(s)H(s)}
+\end{equation}
+
+前向传递函数：
+
+\begin{equation}
+    \frac{Y(s)}{E(s)}=G(s)
+\end{equation}
+
+开环传递函数：
+
+\begin{equation}
+    \frac{B(s)}{E(s)}=G(s)H(s)
+\end{equation}
+
+\section{控制系统的时域分析}
+
+\subsection{线性定常系统}
+
+线性定常系统的一个特性：系统对输入信号导数的响应，等于系统对该输入信号响应的导数；或者，系统对输入信号积分的响应，等于系统对该输入信号响应的积分，积分常数由零初始条件确定。
+
+\subsection{状态空间方程的解}
+
+系统状态空间方程为：
+
+\begin{equation}
+    \begin{aligned}
+        \bm{\dot{x}}(t)&=\bm{Ax}(t)+\bm{Bu}(t) \\
+        \bm{y}(t)&=\bm{Cx}(t)+\bm{Du}(t)
+    \end{aligned}
+\end{equation}
+
+状态转移矩阵：
+
+\begin{equation}
+    \bm{\varPhi}(t)=\text{e}^{\bm{A}t}=\mathcal{L}^{-1}\left[(s\bm{I}-\bm{A})^{-1}\right]
+\end{equation}
+
+状态空间方程的解：
+
+\begin{equation}
+    \bm{x}(t)=\bm{\varPhi}(t)\bm{x}_0+\int_{0}^{t}\bm{\varPhi}(t-\tau)\bm{Bu}(\tau)\text{d}\tau
+\end{equation}
+
+系统的输出：
+
+\begin{equation}
+    y(t)=\bm{C\varPhi}(t)\bm{x}_0+\int_{0}^{t}\bm{C\varPhi}(t-\tau)\bm{Bu}(\tau)\text{d}\tau+\bm{Du}(t)
+\end{equation}
+
+单位阶跃响应：
+
+\begin{equation}
+    h(t)=-\bm{C}\bm{A}^{-1}\bm{B}+\bm{C}\bm{A}^{-1}\text{e}^{\bm{A}t}\bm{B}+\bm{D}
+\end{equation}
+
+静态放大系数：
+
+\begin{equation}
+    k_s=-\bm{C}\bm{A}^{-1}\bm{B}+\bm{D}
+\end{equation}
+
+\subsection{暂态性能指标}
+
+延迟时间$T_d$：系统响应从0上升到稳态值的50\%所需要的时间
+
+上升时间$T_r$：有振荡系统响应从0上升到稳态值所需时间；无振荡系统响应从稳态值的10\%上升到90\%所需时间。
+
+峰值时间$T_p$：系统响应达到最大峰值所需要的时间。
+
+最大超调量$\sigma\%$：系统响应超出稳态值的最大偏离量，常以百分比表示。
+
+调节时间$T_s$：系统响应与稳态值之差达到误差$\pm\Delta$所需要的最小时间。
+
+振荡次数$N$：调节时间$T_s$内，$y(t)$偏离$y(\infty)$的振荡次数。
+
+\subsection{一阶系统的暂态响应特性}
+
+一阶系统的闭环传递函数为：
+
+\begin{equation}
+    \frac{Y(s)}{R(s)}=\frac{1}{Ts+1}
+\end{equation}
+
+其单位阶跃响应如下：
+
+\begin{figure}[htbp]
+    \centering
+    \caption{一阶系统单位阶跃响应}
+    \input{tikz/sys1.tex}
+\end{figure}
+
+延迟时间$T_d$：
+
+\begin{equation}
+    T_d=-T\ln{0.5}=0.69T
+\end{equation}
+
+上升时间$T_r$：
+
+\begin{equation}
+    T_r=(-T\ln{0.9})-(-T\ln{0.1})=2.20T
+\end{equation}
+
+\subsection{二阶规范系统的暂态响应特性}
+
+二阶规范系统的闭环传递函数为：
+
+\begin{equation}
+    \frac{Y(s)}{R(s)}=\frac{\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}
+\end{equation}
+
+其中$\zeta$为阻尼比，$\omega_n$为无阻尼自然振荡角频率。
+$\zeta$的值影响系统的响应情况如下表所示。
+
+\begin{table}[htbp]
+    \label{tab:zeta}
+    \begin{center}
+      \caption{$\zeta$的值对系统响应影响}
+      \begin{tabular}{c|c|c|c|c|c}
+        \hline
+        $\bm{\zeta}$ & $\zeta<0$ & $\zeta=0$ & $0<\zeta<1$ & $\zeta=1$ & $\zeta>1$ \\
+        \hline
+        \textbf{状态} & 不稳定 & 无阻尼 & 欠阻尼 & 临界阻尼 & 过阻尼 \\
+        \hline
+        \textbf{响应} & - & 无衰减振荡 & 衰减振荡 & 无振荡 & 无振荡 \\
+        \hline
+      \end{tabular}
+    \end{center}
+\end{table}
+
+欠阻尼或临界阻尼时：
+
+\begin{equation}
+    -p_{1,2}=-\zeta\omega_n\pm\text{j}\omega_n\sqrt{1-\zeta^2}=\sigma\pm\text{j}\omega_d
+\end{equation}
+
+其中，$\omega_d=\omega_n\sqrt{1-\zeta^2}$为阻尼自然振荡角频率，$\sigma=-\zeta\omega_n$为阻尼系数或衰减系数。
+
+过阻尼时：
+
+\begin{equation}
+    -p_{1,2}=-\zeta\omega_n\pm\omega_n\sqrt{\zeta^2-1}
+\end{equation}
+
+峰值时间$T_p$：
+
+\begin{equation}
+    T_p=\frac{\pi}{\omega_d}=\frac{\pi}{\omega_n\sqrt{1-\zeta^2}}
+\end{equation}
+
+超调量$\sigma\%$：
+
+\begin{equation}
+    \sigma\%=\text{e}^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}\times 100\%
+\end{equation}
+
+上升时间$T_r$：
+
+\begin{equation}
+    T_r=\frac{\pi-\varphi}{\omega_d}=\frac{\pi-\varphi}{\omega_n\sqrt{1-\zeta^2}} \quad \varphi=\arctan{\frac{\sqrt{1-\zeta^2}}{\zeta}}
+\end{equation}
+
+调节时间$T_s(0<\zeta<0.9)$：
+
+\begin{equation}
+    T_s(2\%)=\frac{4}{\zeta\omega_n} \quad T_s(5\%)=\frac{3}{\zeta\omega_n}
+\end{equation}
+
+二阶工程最佳参数：
+
+\begin{equation}
+    \zeta=\frac{1}{\sqrt{2}} \quad \sigma\%=\text{e}^{-\pi}\times 100\%=4.3\%
+\end{equation}
+
+添加零点对原无零点规范二阶系统性能的影响：峰值时间提前、超调量增大（振荡加剧）、调节时间增长。
+
+\subsection{控制系统的稳态误差}
+
+开环传递函数$G(s)$中零极点的重数$N$，即串联的积分环节的个数，称为系统的类型或阶数。
+
+单位反馈系统的误差系数与稳态误差的定义：
+
+\begin{equation}
+    K=\lim_{s\rightarrow 0}G(s)=\lim_{s\rightarrow 0}\frac{K}{s^N} \quad e_{ss}=\lim_{s\rightarrow 0}E(s)=\lim_{s\rightarrow 0}\frac{A}{1+G(s)}
+\end{equation}
+
+单位反馈系统的误差系数与稳态误差如下表：
+
+\begin{table}[htbp]
+    \label{tab:zeta}
+    \begin{center}
+      \caption{系统的误差系数与稳态误差}
+      \begin{tabular}{c|c|c|c|c|c|c}
+        \hline
+        \multirow{2}*{系统的类型} & \multicolumn{3}{|c|}{误差系数} & \multicolumn{3}{|c}{稳态误差} \\
+        \cline{2-7}
+        ~ & $K_p$ & $K_v$ & $K_a$ & $e_{ss}=A/(1+K_p)$ & $e_{ss}=A/K_v$ & $e_{ss}=A/K_a$ \\
+        \hline
+        0型 & $K$ & $0$ & $0$ & $A/(1+K)$ & $\infty$ & $\infty$ \\ 
+        \hline
+        1型 & $\infty$ & $K$ & $0$ & $0$ & $A/K$ & $\infty$ \\ 
+        \hline
+        2型 & $\infty$ & $\infty$ & $K$ & $0$ & $0$ & $A/K$ \\ 
+        \hline
+      \end{tabular}
+    \end{center}
+\end{table}
+
+分析非单位反馈系统的稳态误差时，开环传递函数等效为：
+
+\begin{equation}
+    G_k(s)=G(s)H(s)
+\end{equation}
+
+\subsection{控制系统的稳定性}
+
+稳定系统：对于有界输入具有有界响应。
+
+充要条件：系统传递函数的所有极点（系统矩阵的特征值）具有负实部（在$s$平面虚轴左面）。
+
+稳定性判据：Routh-Hurwitz稳定性判据。
+
+系统稳定的必要条件：特征方程的各项系数均为正（同号且不缺项）。
+
+系统稳定的充分必要条件：Routh表中第一列各值为正。
+
+\section{根轨迹法}
+
+
+
+\end{document}
