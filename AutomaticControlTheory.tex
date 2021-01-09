@@ -20,6 +20,7 @@
 \usepackage{bm}
 \usepackage{multirow}
 
+
 \begin{document}
 
 \maketitle
@@ -354,6 +355,521 @@ $\zeta$的值影响系统的响应情况如下表所示。
 系统稳定的充分必要条件：Routh表中第一列各值为正。
 
 \section{根轨迹法}
+
+\subsection{根轨迹的基本概念}
+
+反馈控制系统的闭环传函：
+
+\begin{equation}
+    T(s)=\frac{Y(s)}{R(s)}=\frac{G(s)}{1+G(s)H(s)}
+\end{equation}
+
+特征方程：
+
+\begin{equation}
+    1+G(s)H(s)=0
+\end{equation}
+
+开环传递函数：
+
+\begin{equation}
+    G(s)H(s)=K_g\frac{P(s)}{Q(s)}=K_g\frac{\prod\limits_{i=1}^{m}(s+z_{oi})}{\prod\limits_{j=1}^{n}(s+p_{oj})}
+\end{equation}
+
+其中$K_g$为传递系数或开环根轨迹增益，$-z_{oi}$为开环传递函数的零点，$-p_{oj}$为开环传递函数的极点。
+
+幅角条件与幅值条件：
+
+\begin{equation}
+    \begin{aligned}
+        \angle{G(s)H(s)}&=\sum_{i=1}^{m}\angle{(s+z_{oi})}-\sum_{j=1}^{n}\angle{(s+p_{oj})}=\pm(2k+1)180{^\circ}, k\in\mathbb{N} \\
+        |G(s)H(s)|&=1
+    \end{aligned}
+\end{equation}
+
+满足幅角条件和幅值条件的$s$值就是特征方程的根，即闭环极点。幅角条件和幅值条件构成根轨迹的基本条件。
+
+在分析和绘制根轨迹时，幅角和幅值应可进行图解测量，故横坐标和纵坐标采用同样的尺度等分。
+
+\subsection{绘制根轨迹的基本规则}
+
+\textbf{规则1}：根轨迹是连续的，且对称于实轴。
+
+\textbf{规则2}：根轨迹起始于开环极点，终止于开环零点；根轨迹的分支数（条数）为开环有限极点数和开环有限零点数中的较大值。
+
+\textbf{规则3}：实轴上根轨迹段存在的区间的右侧，开环零点和开环极点之和为奇数。
+
+\textbf{规则4}：根轨迹的渐近线。根轨迹有$|n-m|$条分支沿渐近线趋于或始于无穷远，这些渐近线的倾角$\phi_A$及与实轴的交点$\sigma_A$分别为：
+
+\begin{equation}
+    \begin{aligned}
+        \phi_A&=\frac{2k+1}{n-m}\pi, 0<k<|n-m|-1 \\
+        \sigma_A&=\frac{\sum\limits_{j=1}^{n}(-p_{oj})-\sum\limits_{i=1}^{m}(-z_{oi})}{n-m}
+    \end{aligned}
+\end{equation}
+
+\textbf{规则5}：根轨迹的分离点，可由下式给出：
+
+\begin{equation}
+    \left\{
+        \begin{array}{l}
+            P'(s)Q(s)-Q'(s)P(s)=0 \\
+            K_g>0
+        \end{array}
+    \right.
+\end{equation}
+
+\textbf{规则6}：根轨迹与虚轴的交点为闭环系统的临界稳定点。确定与虚轴交点和临界增益值的方法：利用Routh判据，确定临界稳定点；或在特征方程中，代入$s=\mathrm{j}\omega$，令实部和虚部分别等于0，解出与虚轴交点$±\omega$和临界增益值。
+
+\textbf{规则7}：根轨迹的出射角和入射角。
+
+根轨迹以开环复极点$-p_{ol}$出发的出射角为：
+
+\begin{equation}
+    \theta_{p_{ol}}=\sum_{i=1}^{m}\angle[(-p_{ol})-(-z_{oi})]-\sum_{j=1,j\neq l}^{n}\angle[(-p_{ol})-(-p_{oj})]\pm 180^{\circ}(2k+1)
+\end{equation}
+
+根轨迹以开环复零点$-z_{ol}$出发的入射角为：
+
+\begin{equation}
+    \theta_{z_{ol}}=\sum_{j=1}^{n}\angle[(-z_{ol})-(-p_{oj})]-\sum_{i=1,i\neq l}^{m}\angle[(-z_{ol})-(-z_{oi})]\pm 180^{\circ}(2k+1)
+\end{equation}
+
+\textbf{规则8}：根轨迹的平衡性（走向）。当$n-m\geq 2$时，闭环极点之和为常数。因而，随着$K_g$的增大，一些根轨迹分支左行时，必有根轨迹另一些右行。
+
+\subsection{参数根轨迹}
+
+当以参数$X$为变量，$0\leq X<\infty$，作根轨迹时，需要将特征方程写成：
+
+\begin{equation}
+    A(s)+XB(s)=0 \quad 1+X\frac{B(s)}{A(s)}=0 \quad X\frac{B(s)}{A(s)}=-1
+\end{equation}
+
+即可同上述规则作出以$X$为变量的特征方程的根轨迹。
+
+\subsection{绘制根轨迹举例}
+
+
+
+\section{频率响应法}
+
+\subsection{频率特性}
+
+频率响应：系统对正弦输入信号的稳态响应
+频率特性：频率响应特性，即正弦信号输入时，系统稳态输出与输入量之比。
+
+工程上应用最广泛的频率特性图是Bode图（对数坐标图）和极坐标图（Nyquist图、幅相频率特性图）。
+
+极坐标图：图中反映出的量为频率特性的幅值和相角，而频率$\omega$为隐含变量。
+
+Bode图：将频率特性分为幅频特性和相频特性，分别绘于半对数坐标上。
+
+\subsection{典型环节的频率特性}
+
+\subsubsection{比例环节}
+
+\begin{equation}
+    G(\mathrm{j}\omega)=K, \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}=20\lg{K} \\
+            \varphi(\omega)=0
+        \end{array}
+    \right.
+\end{equation}
+
+\subsubsection{积分环节}
+
+\begin{equation}
+    G(\mathrm{j}\omega)=\frac{1}{\mathrm{j}\omega}, \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}=-20\lg{\omega} \\
+            \varphi(\omega)=-90^{\circ}
+        \end{array}
+    \right.
+\end{equation}
+
+\subsubsection{微分环节}
+
+微分环节与积分环节的Bode图关于横轴对称。
+
+\begin{equation}
+    G(\mathrm{j}\omega)=\mathrm{j}\omega, \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}=20\lg{\omega} \\
+            \varphi(\omega)=90^{\circ}
+        \end{array}
+    \right.
+\end{equation}
+
+\subsubsection{惯性环节}
+
+\begin{equation}
+    G(\mathrm{j}\omega)=\frac{1}{1+\mathrm{j}\omega T}, \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}\approx\left\{
+                \begin{array}{ll}
+                    0 & \omega<\frac{1}{T} \\
+                    -20\lg{\omega} & \omega>\frac{1}{T}
+                \end{array}
+            \right. \\
+            \varphi(\omega)\approx\left\{
+                \begin{array}{ll}
+                    -45^{\circ}/\mathrm{dec}\cdot\omega & \frac{0.1}{T}<\omega<\frac{10}{T} \\
+                    0 \stackrel{-45^{\circ}}{\rightarrow} -90^{\circ} & \omega=0 \stackrel{\frac{1}{T}}{\rightarrow} \infty
+                \end{array}
+            \right.
+        \end{array}
+    \right.
+\end{equation}
+
+\subsubsection{一阶微分环节}
+
+一阶微分环节与一阶惯性环节的Bode图关于横轴对称。
+
+\begin{equation}
+    G(\mathrm{j}\omega)=1+\mathrm{j}\omega T, \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}\approx\left\{
+                \begin{array}{ll}
+                    0 & \omega<\frac{1}{T} \\
+                    20\lg{\omega} & \omega>\frac{1}{T}
+                \end{array}
+            \right. \\
+            \varphi(\omega)\approx\left\{
+                \begin{array}{ll}
+                    45^{\circ}/\mathrm{dec}\cdot\omega & \frac{0.1}{T}<\omega<\frac{10}{T} \\
+                    0 \stackrel{45^{\circ}}{\rightarrow} 90^{\circ} & \omega=0 \stackrel{\frac{1}{T}}{\rightarrow} \infty
+                \end{array}
+            \right.
+        \end{array}
+    \right.
+\end{equation}
+
+\subsubsection{振荡环节}
+
+\begin{equation}
+    G(\mathrm{j}\omega)=\frac{1}{1-\left(\dfrac{\omega}{\omega_n}\right)^2+\mathrm{j}2\zeta\left(\dfrac{\omega}{\omega_n}\right)} (0\leq \zeta\leq 1), \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}\approx\left\{
+                \begin{array}{ll}
+                    0 & \omega<\frac{1}{T} \\
+                    -40\lg{\omega} & \omega>\frac{1}{T}
+                \end{array}
+            \right. \\
+            \varphi(\omega)=0 \stackrel{-90^{\circ}}{\rightarrow} -180^{\circ} \quad \omega=0  \stackrel{\frac{1}{T}}{\rightarrow} \infty
+        \end{array}
+    \right.
+\end{equation}
+
+谐振频率$\omega_r$与谐振峰值$M_r$（$0\leq\zeta\leq\sqrt{2}$）：
+
+\begin{equation}
+    \omega_r=\omega_n\sqrt{1-2\zeta^2}, \quad M_r=|G(\mathrm{j}\omega_r)|=\frac{1}{2\zeta\sqrt{1-\zeta^2}}
+\end{equation}
+
+\subsubsection{二阶微分环节}
+
+二阶微分环节与二阶振荡环节的Bode图关于横轴对称。
+
+\begin{equation}
+    G(\mathrm{j}\omega)=1-\left(\dfrac{\omega}{\omega_n}\right)^2+\mathrm{j}2\zeta\left(\dfrac{\omega}{\omega_n}\right) (0\leq \zeta\leq 1), \quad 
+    \left\{
+        \begin{array}{l}
+            20\lg{A(\omega)}\approx\left\{
+                \begin{array}{ll}
+                    0 & \omega<\frac{1}{T} \\
+                    40\lg{\omega} & \omega>\frac{1}{T}
+                \end{array}
+            \right. \\
+            \varphi(\omega)=0 \stackrel{90^{\circ}}{\rightarrow} 180^{\circ} \quad \omega=0  \stackrel{\frac{1}{T}}{\rightarrow} \infty
+        \end{array}
+    \right.
+\end{equation}
+
+\subsection{Nyquist稳定性判据}
+
+判断闭环系统的稳定性（不求特征根）的方法：
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 代数判据：适用于特征方程为代数方程的系统，不适用于时滞系统。
+    \item 根轨迹法：对于时滞系统有效，但很麻烦。
+    \item Nyquist判据：利用开环频率特性$G(\mathrm{j}\omega)H(\mathrm{j}\omega)$判断闭环系统稳定性的一种图解方法。
+\end{enumerate}
+
+Nyquist判据判断特征方程$1+G(s)H(s)=0$在$s$右半平面内特征根的数目，其理论基础是复变函数的映射定理（Cauchy定理）。根据映射定理，由$F$平面上$\varGamma_F$包围原点的周数，可知$s$平面上$\varGamma_s$中的零点数与极点数。
+
+闭环系统稳定的充要条件：
+
+\begin{equation}
+    Z=0, \quad N=Z-P=-P
+\end{equation}
+
+即$s$顺时针沿$D$形围线$\varGamma_s$变化一周时，在$1+GH$平面上, $1+G(s)H(s)$的轨迹$\varGamma_F$须逆时针包围原点$P$周。
+
+\subsection{控制系统的稳定裕量}
+
+稳定裕量：系统相对稳定性的一种度量，反映系统离临界稳定点的“距离”。
+
+最小相位传递函数：在s右半平面没有极点和零点，且不含时滞环节的传递函数（时滞环节是非最小相位的）。
+
+最小相位系统：具有最小相位传递函数的系统。
+
+稳定的最小相位系统，开环传函$G(s)H(s)$的轨迹必不包围$(-1,0)$点。频率准则中，分为相角裕量和增益裕量。
+
+当开环频率特性的幅值等于$1$时，其相角$\varphi(\omega_c)$与$-180^{\circ}$之差称为系统的相角裕量$\gamma$：
+
+\begin{equation}
+    \gamma=\varphi(\omega_c)-(-180^{\circ})=180^{\circ}+\varphi(\omega_c), \quad \varphi(\omega_c)=\angle{G(\mathrm{j}\omega)H(\mathrm{j}\omega)}
+\end{equation}
+
+其中$\omega_c$称为幅穿频率。$\gamma>0$时称为正相角裕量，闭环系统稳定；$\gamma<0$时称为负相角裕量，闭环系统不稳定。工程上一般常取$\gamma:30^{\circ}\sim 60^{\circ}$。
+
+当开环频率特性的相角$\varphi(\omega_g)-180^{\circ}$时，其幅值的倒数称为系统的增益裕量$g_m$：
+
+\begin{equation}
+    a=\left|\frac{1}{G(\mathrm{j}\omega_g)H(\mathrm{j}\omega_g)}\right|, \quad g_m=20\lg{(a)}=-20\lg{|G(\mathrm{j}\omega_g)H(\mathrm{j}\omega_g)|}
+\end{equation}
+
+其中$\omega_g$称为相穿频率。$a>1, g_m>0$时称为正增益裕量，闭环系统稳定；$a<1, g_m<0$时称为负增益裕量，闭环系统不稳定。
+
+\subsection{绘制Bode图举例}
+
+
+
+\subsection{Nyquist稳定性判据举例}
+
+
+
+\section{控制系统设计}
+
+\subsection{常用校正环节}
+
+\subsubsection{超前校正}
+
+超前校正网络传递函数：
+
+\begin{equation}
+    G_c(s)=\frac{1}{\alpha}\frac{\alpha T_d s+1}{T_d s+1}=\frac{s+z_d}{s+p_d}, \quad \alpha=\frac{1+\sin{\varphi_m}}{1-\sin{\varphi_m}}>1
+\end{equation}
+
+其零极点为：
+
+\begin{equation}
+    -z_d=-\frac{1}{\alpha T_d}, \quad -p_d=-\frac{1}{T_d}
+\end{equation}
+
+最大超前相移角处的频率$\omega_m$：
+
+\begin{equation}
+    \omega_m=\frac{1}{\sqrt{\alpha}T_d}, \quad 20\lg{|G_c(\mathrm{j}\omega_m)|}=-10\lg{\alpha}
+\end{equation}
+
+\subsubsection{滞后校正}
+
+滞后校正网络传递函数：
+
+\begin{equation}
+    G_c(s)=\frac{\beta T_i s+1}{T_i s+1}=\beta\frac{s+z_i}{s+p_i}, \quad \beta<1
+\end{equation}
+
+确定分度系数$\beta$：
+
+\begin{equation}
+    20\lg{|K_c G_o(\mathrm{j}\omega_c)|}+20\lg{\beta}=0
+\end{equation}
+
+其零极点为：
+
+\begin{equation}
+    -z_i=-\frac{1}{\beta T_i}, \quad -p_i=-\frac{1}{T_i}
+\end{equation}
+
+最大超前相移角处的频率$\omega_m$：
+
+\begin{equation}
+    \omega_m=\frac{1}{\sqrt{\beta}T_i}
+\end{equation}
+
+\subsubsection{滞后—超前校正}
+
+滞后—超前校正网络传递函数：
+
+\begin{equation}
+    G_c(s)=\frac{\beta T_i s+1}{T_i s+1}\frac{\alpha T_d s+1}{T_d s+1}=\frac{s+z_i}{s+p_i}\frac{s+z_d}{s+p_d}, \quad \beta<1, \alpha=\frac{1}{\beta}>1,T_i>T_d
+\end{equation}
+
+\subsubsection{PID控制器}
+
+PID控制器传递函数：
+
+\begin{equation}
+    G_c(s)=K_p+\frac{K_I}{s}+K_D s
+\end{equation}
+
+\subsection{基于频域法的串联校正}
+
+\subsubsection{串联超前校正}
+
+串联超前校正通过增大开环增益改善静态特征；超前校正环节转折频率选择在预定的幅穿频率的两边，提高相角裕量，改善动态特征。
+
+\textbf{频率法串联超前校正参考步骤}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 如果有要求静态误差系数指标，先根据静态误差系数确定附加增益$K_{c_1}$；
+    \item 画出$K_{c_1}G_o(\mathrm{j}\omega)$的Bode图，得到$\gamma_o$和$g_{m_o}$，并根据$\omega_c$附近频率特性斜率取相角预留量$\varepsilon$，斜率为$-40\mathrm{dB/dec}$时取$5^{\circ}\sim 10^{\circ}$，斜率为$-60\mathrm{dB/dec}$时取$15^{\circ}\sim 20^{\circ}$；
+    \item 计算$\varphi_m=\gamma-\gamma_0+\varepsilon$，$\alpha=\dfrac{1+\sin{\varphi_m}}{1-\sin{\varphi_m}}$；
+    \item 在原频率特性曲线上通过$20\lg{|K_{c_1}G_c(\mathrm{j}\omega_m)|}=-20\lg{\sqrt{\alpha}}=-10\lg{\alpha}$确定$\omega_m$，并令新的幅穿频率$\omega_c=\omega_m$；
+    \item 由$\omega_m=\dfrac{1}{\sqrt{\alpha}T_d}$计算$T_d$和$-z_d=-\dfrac{1}{\alpha T_d}, \quad -p_d=-\dfrac{1}{T_d}$；
+    \item 确定补偿超前环节增益衰减应附加的增益$K_{c_2}=\alpha$，则超前环节总的附加增益$K_c=K_{c_1}K_{c_2}$；
+    \item 作出校正后系统的Bode图，检查性能指标是否满足
+    要求。
+\end{enumerate}
+
+\textbf{不适用串联超前校正的情况}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 若需要$\varphi_m$太大时（$>60^{\circ}$），串联一个超前环节难以满足要求。
+    \item 若原系统$G_o(\mathrm{j}\omega)$的相频特性$\varphi_o(\omega)$在$\omega_c$附近下降太快时，超前校正往往无效。
+\end{enumerate}
+
+\subsubsection{串联滞后校正}
+
+校正前系统在幅穿频率附近相频特性下降很快时，采用超前校正往往无效。若对校正后系统的幅穿频率要求不高，可考虑采用滞后校正。
+
+\textbf{频率法串联滞后校正参考步骤}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 如果有要求静态误差系数指标，先根据静态误差系数确定附加增益$K_{c}$；
+    \item 画出$K_{c}G_o(\mathrm{j}\omega)$的Bode图，得到$\gamma_o$和$g_{m_o}$；
+    \item 根据相角裕量条件$\gamma_o(\omega_c)=\gamma+|\varphi_i(\omega_c)|$，$|\varphi_i(\omega_c)|$取$5^{\circ}\sim 12^{\circ}$，在相位曲线上确定新的幅穿频率$\omega_c$；
+    \item 在原频率特性曲线上通过$20\lg{|K_{c_1}G_c(\mathrm{j}\omega_m)|}=-20\lg{\sqrt{\alpha}}=-10\lg{\alpha}$确定$\omega_m$，并令新的幅穿频率$\omega_c=\omega_m$；
+    \item 根据$20\lg{|K_c G_o(\mathrm{j}\omega_c)|}+20\lg{\beta}=0$确定分度系数$\beta$；
+    \item 选择零点对应的转折频率$\dfrac{1}{\beta T_i}$，使$|\varphi_i(\omega_c)|$不大于预留的滞后相角，一般取$\dfrac{1}{\beta T_i}=\dfrac{\omega_c}{5\sim 10}$。
+    \item 作出校正后系统的Bode图，检查性能指标是否满足要求。
+\end{enumerate}
+
+\subsubsection{串联滞后—超前校正}
+
+
+
+\subsection{基于根轨迹法的串联校正}
+
+性能指标以时域指标给出，如超调量、调整时间、上升时间等，以及闭环主导极点的阻尼比、无阻尼自然振荡频率等，常采用根轨迹法校正。
+
+往往通过选择一对闭环主导极点，使校正后的系统满足性能指标。
+
+\subsubsection{串联超前校正}
+
+通过合理配置超前校正环节的一对零、极点，改变根轨迹的形状，以获得希望的系统根轨迹。主要用于改善动态指标。
+
+\textbf{根轨迹法串联超前校正参考步骤}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 根据动态性能指标，确定希望的闭环主导极点的预期位置；
+    \item 绘制原系统的根轨迹图，验证未校正系统能否具有预期主导极点。如有，则只需调整增益值。若无，则计算要通过预期闭环极点未校正系统所需的相角缺额，即为超前校正环节应提供的超前相角$\varphi_c$；
+    \item 根据$\varphi_c$，确定超前校正环节的零点和极点；
+    \item 根据幅值条件$|G_c(s_1)G_o(s_1)|=1$，确定校正环节附加增益$K_c$，$G_c(s)=K_c\dfrac{s+z_d}{s+p_d}$；
+    \item 检验校正后系统的性能指标：检查预期的闭环极点是否为主导极点；如是，按无零点二阶系统估算性能指标。如不能满足性能指标，则需要修正参数，直到满足要求。
+\end{enumerate}
+
+\textbf{作图法确定零极点}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 过$s_1$点，作$\overline{s_1 A}$平行于负实轴；
+    \item 作$\angle O s_1 A$的角平分线$\overline{s_1 B}$；
+    \item 在角平分线两侧用$\pm\dfrac{\varphi_c}{2}$分别做出$\overline{s_1 C}$和$\overline{s_1 D}$；
+    \item $\overline{s_1 C}$和$\overline{s_1 D}$与负实轴的交点即为的零点和极点。
+\end{enumerate}
+
+\textbf{计算法确定零极点}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 计算$\delta=\dfrac{1}{2}(180^{\circ}-\varphi-\varphi_c)$；
+    \item 计算零极点：$z_d=\dfrac{\sin{\delta}}{\sin{(\varphi+\delta)}}\omega$，$p_d=\dfrac{\sin{(\varphi+\delta)}}{\sin{\delta}}\omega$。
+\end{enumerate}
+
+\subsubsection{串联滞后校正}
+
+\textbf{根轨迹法串联滞后校正参考步骤}
+
+\begin{enumerate}
+    \setlength{\itemsep}{6pt}
+    \item 绘制未校正系统的根轨迹图。根据动态性能指标，在根轨迹上确定希望的闭环主导极点的位置；
+    \item 计算对应于闭环主导极点的开环增益；
+    \item 根据稳态误差系数的要求，计算应由校正环节提供的附加增益值$K_c$。按$K_c\beta=1$考虑选取$\beta=\dfrac{1}{K_c}$；
+    \item 确定零、极点的值$\dfrac{1}{\beta T_i}$、$\dfrac{1}{T_i}$，为使滞后网络对系统动态性能不产生明显的影响，一般选取$\beta T_i$为原系统最大时间常数10倍以上；
+    \item 做出校正后系统的根轨迹图，确定对应于闭环主导极点的开环增益值；
+    \item 检验原设计的闭环主导极点是否满足闭环主导极点的条件。若确为闭环主导极点，即可按无零点二阶系统估算性能指标。
+\end{enumerate}
+
+\subsection{控制系统的校正举例}
+
+
+
+\section{非线性系统分析}
+
+\subsection{描述函数法}
+
+在一定条件下，非线性环节在正弦信号作用下的输出，可用其一次谐波分量来近似，从而将非线性系统等效为线性系统；于是可将线性系统的频域法，推广用来分析研究非线性系统的稳定性和自持振荡问题。
+
+描述函数也是非线性特性的一种线性化处理，称为谐波线性化。
+
+基于平衡态附近的小信号分析的线性化仅适用于非本质非线性系统。
+
+\subsection{非线性系统的描述函数分析}
+
+假定非线性环节的输入输出特性是奇对称的，即直流分量为零；而且线性部分具有良好的低通滤波特性。
+
+非线性环节的描述函数定义为在正弦输入时该环节输出的基波分量与输入信号的复数符号之比，即：
+
+\begin{equation}
+    N=\frac{y_1}{A}\mathrm{e}^{\mathrm{j}\varphi_1}=\frac{B_1}{A}+\mathrm{j}\frac{A_1}{A}
+\end{equation}
+
+其中$A$为正弦输入信号的幅值；$y_1$为输出信号基波分量的幅值；$\varphi_1$为输出信号基波分量的相移角。
+
+非线性系统的特征方程为：
+
+\begin{equation}
+    N(A)G(s)+1=0
+\end{equation}
+
+非线性系统的频域形式为：
+
+\begin{equation}
+    G(\mathrm{j}\omega)=-N^{-1}(A)
+\end{equation}
+
+其中$-N^{-1}(A)$称为非线性特性的负倒描述函数。应用Nyquist判据，相当于线性系统中的$G(\mathrm{j}\omega)=-1$。
+
+设非线性系统的线性部分$G(s)$是最小相位的，于是, 闭环系统稳定的条件为$N=0$。
+
+若$G(\mathrm{j}\omega)$曲线不包围$-N^{-1}(A)$曲线，则非线性系统是稳定的；若$G(\mathrm{j}\omega)$曲线包围$-N^{-1}(A)$曲线，则非线性系统是不稳定的；若$G(\mathrm{j}\omega)$曲线与$-N^{-1}(A)$曲线相交，则非线性系统可能出现自持振荡。
+
+\subsection{相平面法}
+
+
+
+\subsection{非线性系统的相平面分析}
+
+
+
+\section{MATLAB的应用}
+
+
 
 
 
