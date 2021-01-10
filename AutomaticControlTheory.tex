@@ -7,7 +7,7 @@
 \title{自动控制原理笔记}
 \author{Xiaohei}
 \institute{Created by Elegant\LaTeX{}}
-\version{1.0}
+\version{1.1}
 \date{\zhtoday}
 
 \usepackage{pgfplots}
@@ -841,7 +841,6 @@ PID控制器传递函数：
     \item 如果有要求静态误差系数指标，先根据静态误差系数确定附加增益$K_{c}$；
     \item 画出$K_{c}G_o(\mathrm{j}\omega)$的Bode图，得到$\gamma_o$和$g_{m_o}$；
     \item 根据相角裕量条件$\gamma_o(\omega_c)=\gamma+|\varphi_i(\omega_c)|$，$|\varphi_i(\omega_c)|$取$5^{\circ}\sim 12^{\circ}$，在相位曲线上确定新的幅穿频率$\omega_c$；
-    \item 在原频率特性曲线上通过$20\lg{|K_{c_1}G_c(\mathrm{j}\omega_m)|}=-20\lg{\sqrt{\alpha}}=-10\lg{\alpha}$确定$\omega_m$，并令新的幅穿频率$\omega_c=\omega_m$；
     \item 根据$20\lg{|K_c G_o(\mathrm{j}\omega_c)|}+20\lg{\beta}=0$确定分度系数$\beta$；
     \item 选择零点对应的转折频率$\dfrac{1}{\beta T_i}$，使$|\varphi_i(\omega_c)|$不大于预留的滞后相角，一般取$\dfrac{1}{\beta T_i}=\dfrac{\omega_c}{5\sim 10}$。
     \item 作出校正后系统的Bode图，检查性能指标是否满足要求。
@@ -1015,8 +1014,6 @@ $a_1$点具有收敛性。这说明工作点在$a_1$点时系统是稳定的，�
 \begin{equation}
     t_{ab}=\theta_a-\theta_b=\theta_{\wideparen{ab}}
 \end{equation}
-
-\newpage
 
 \section{MATLAB的应用}
 
