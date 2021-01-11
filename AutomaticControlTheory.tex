@@ -6,8 +6,7 @@
 
 \title{自动控制原理笔记}
 \author{Xiaohei}
-\institute{Created by Elegant\LaTeX{}}
-\version{1.1}
+\version{1.2}
 \date{\zhtoday}
 
 \usepackage{pgfplots}
@@ -22,6 +21,9 @@
 \usepackage{yhmath}
 
 \begin{document}
+
+\setlength{\lineskip}{0}
+\setlength{\parskip}{0}
 
 \maketitle
 
@@ -403,7 +405,7 @@ $\zeta$的值影响系统的响应情况如下表所示。
 
 \begin{equation}
     \begin{aligned}
-        \phi_A&=\frac{2k+1}{n-m}\pi, 0<k<|n-m|-1 \\
+        \phi_A&=\frac{2k+1}{n-m}\pi, 0\leq k\leq |n-m|-1 \\
         \sigma_A&=\frac{\sum\limits_{j=1}^{n}(-p_{oj})-\sum\limits_{i=1}^{m}(-z_{oi})}{n-m}
     \end{aligned}
 \end{equation}
@@ -414,7 +416,7 @@ $\zeta$的值影响系统的响应情况如下表所示。
     \left\{
         \begin{array}{l}
             P'(s)Q(s)-Q'(s)P(s)=0 \\
-            K_g>0
+            K_g\geq 0
         \end{array}
     \right.
 \end{equation}
@@ -948,6 +950,24 @@ PID控制器传递函数：
 在图示的非线性控制系统中，若$a_1$点产生移动向$b$点的扰动，系统会不稳定，使振幅$A$增大，工作点回到$a_1$点；若$a_1$点产生移动向$c$点的扰动，系统稳定，使振幅$A$减小，工作点回到$a_1$点。
 
 $a_1$点具有收敛性。这说明工作点在$a_1$点时系统是稳定的，呈现稳定的自持振荡：振幅为$A_1$，频率为$\omega_1$，该自振可近似表示为$A_1\sin{\omega_1 t}$。$a_2$点具有发散性。即$a_2$点周期运动是不稳定的，无法维持。
+
+\subsection{典型非线性特性}
+
+\subsubsection{理想继电型特性}
+
+负倒描述函数曲线为整个负实轴。为稳定的自持振荡。计算交点方式为令$\mathrm{Im}[G(\mathrm{j}\omega)]=0$，下同。
+
+\subsubsection{具有死区的三位置继电型特性}
+
+当$A=b$和$A\rightarrow \infty$时，$-N^{-1}(A)\rightarrow-\infty$；当$A=\sqrt{2}b$时，$-N^{-1}(A)$为最大值，若相交则存在一个稳定的自持振荡的点和一个不稳定的振荡的点。
+
+\subsubsection{饱和非线性特性}
+
+当$A\rightarrow \infty$时，$-N^{-1}(A)\rightarrow-\infty$；当$A=b$时，$-N^{-1}(A)=-\dfrac{1}{k}$为最大值，该点是稳定的自持振荡。
+
+\subsubsection{死区非线性特性}
+
+当$A=\Delta$时，$-N^{-1}(A)\rightarrow-\infty$；当$A\rightarrow \infty$时，$-N^{-1}(A)=-\dfrac{1}{k}$为最大值，该点是不稳定的振荡。
 
 \subsection{相平面法}
 
